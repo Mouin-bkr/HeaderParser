@@ -6,7 +6,13 @@ require("dotenv").config();
 var express = require("express");
 var app = express();
 
-app.get("/", (req, res) => {
+// enable CORS (https://en.wikipedia.org/wiki/Cross-origin_resource_sharing)
+// so that your API is remotely testable by FCC
+var cors = require("cors");
+app.use(cors({ optionsSuccessStatus: 200 })); // some legacy browsers choke on 204
+
+// Define /api/whoami route
+app.get("/api/whoami", (req, res) => {
   const userAgent = req.headers["user-agent"];
   const language = req.headers["accept-language"];
   const ip = req.ip;
@@ -17,10 +23,6 @@ app.get("/", (req, res) => {
     software: userAgent,
   });
 });
-// enable CORS (https://en.wikipedia.org/wiki/Cross-origin_resource_sharing)
-// so that your API is remotely testable by FCC
-var cors = require("cors");
-app.use(cors({ optionsSuccessStatus: 200 })); // some legacy browsers choke on 204
 
 // http://expressjs.com/en/starter/static-files.html
 app.use(express.static("public"));
